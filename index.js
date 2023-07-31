@@ -1,3 +1,23 @@
+// Scroll
+
+const anchors = document.querySelectorAll('a[href*="#"]')
+
+for (let anchor of anchors) {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault()
+    
+    const blockID = anchor.getAttribute('href').substr(1)
+    
+    document.getElementById(blockID).scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  })
+}
+
+
+// Video hero
+
 const refs = {
     video: document.getElementById('myVideo'),
     videoLink: document.querySelector('.video-link'),
@@ -9,7 +29,7 @@ const refs = {
 if (refs.modal) {
     refs.videoLink.addEventListener('click', () => {
     refs.modal.style.display = 'block';
-    refs.modalVideo.play();
+    // refs.modalVideo.play();
     });
 
     refs.closeModal.addEventListener('click', () => {
@@ -35,7 +55,7 @@ const headerInner = document.querySelector('.header__inner');
 document.addEventListener('scroll', scrollHeader);
 
 function scrollHeader() {
-    if (window.pageYOffset > 100) {
+    if (window.pageYOffset > 10) {
         header.classList.add('header__scrolled')
         headerInner.classList.add('header__style')
     } else {
@@ -53,3 +73,89 @@ new simpleParallax(image, {
     overflow: true,
     scale: 1.4,
 });
+
+
+
+
+// Services_Page
+
+const answerItems = document.querySelectorAll('.answer__item');
+
+answerItems.forEach((item) => {
+  const answerHead = item.querySelector('.answer__head');
+
+  answerHead.addEventListener('click', () => {
+    const isActive = item.classList.contains('answer__item_active');
+
+    answerItems.forEach((item) => item.classList.remove('answer__item_active'));
+
+    if (!isActive) {
+        item.classList.add('answer__item_active');
+        exchangePlus(item);
+    } else {
+        exchangeMin(item);
+    }
+  });
+});
+
+function exchangePlus(item) {
+    const itemPlus = item.querySelector('.head__plus');
+    const itemMin = item.querySelector('.head__min');
+
+    if (itemMin.style.display === 'none') {
+        itemMin.style.display = 'none';
+        itemPlus.style.display = 'block';
+    }
+}
+
+function exchangeMin(item) {
+    const itemPlus = item.querySelector('.head__plus');
+    const itemMin = item.querySelector('.head__min');
+
+    if (itemPlus.style.display === 'none') {
+        itemPlus.style.display = 'none';
+        itemMin.style.display = 'block';
+    }
+}
+
+
+
+// Modal menu
+
+const modalMenu = document.querySelector('.modal__menu');
+const modalMenuClose = document.querySelector('.modal__menu_close');
+const menuBurger = document.querySelector('.header__burger');
+
+menuBurger.addEventListener('click', () => {
+    modalMenu.classList.add('modal__menu_open');
+})
+
+modalMenuClose.addEventListener('click', () => {
+    modalMenu.classList.remove('modal__menu_open');
+})
+
+
+// Modal sub menu
+
+const modalSubMenuArr = document.querySelectorAll('.modal__arrow');
+const modalSubMenu = document.querySelectorAll('.pages__item__list');
+
+modalSubMenuArr.forEach(item => {
+    item.addEventListener('click', (e) => {
+        console.log(e.target.closest('li'));
+        e.target.closest('li').classList.toggle('pages__item_active');
+    })
+})
+
+
+// modal close footer
+
+const closeFooter = document.querySelectorAll('a[href*="#"]')
+
+for (let closeFoo of closeFooter) {
+  closeFoo.addEventListener('click', function (e) {
+    e.preventDefault()
+      
+    modalMenu.classList.remove('modal__menu_open')
+  })
+}
